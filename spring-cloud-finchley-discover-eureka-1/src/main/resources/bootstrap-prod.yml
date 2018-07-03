@@ -1,0 +1,9 @@
+logging:
+  level:
+    org.springframework: INFO
+    pro.chenggang: INFO
+  path: ../logs/${spring.application.name}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@discover2:8132/eureka,http://${spring.security.user.name}:${spring.security.user.password}@discover3:8133/eureka
