@@ -28,7 +28,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>pro.chenggang.example.spring.cloud.discover.pro.chenggang.example.spring.cloud.discover.eureka.SpringCloudFinchleyDiscoverEurekaApplication</mainClass>
+                    <mainClass>pro.chenggang.example.spring.cloud.discover.eureka.SpringCloudFinchleyDiscoverEureka3Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>
