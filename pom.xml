@@ -15,6 +15,7 @@
         <module>spring-cloud-finchley-discover-eureka-1</module>
         <module>spring-cloud-finchley-discover-eureka-2</module>
         <module>spring-cloud-finchley-discover-eureka-3</module>
+        <module>spring-cloud-finchley-provider</module>
     </modules>
 
 
@@ -64,11 +65,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!--SpringBoot Security-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <!--监控端点-->
         <dependency>

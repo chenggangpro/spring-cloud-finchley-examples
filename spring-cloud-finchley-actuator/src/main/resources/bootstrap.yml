@@ -11,9 +11,9 @@ spring:
       password: password
   boot: #TODO SpringBootAdmin2.0之后必须配置,才可生效
     admin:
-      client: #客户端用户名密码
-        username: ${spring.security.user.name}
-        password: ${spring.security.user.password}
+      client: #客户端用户名密码(子服务在开启SpringBootSecurity时需配置客户端用户名密码)
+#        username: ${spring.security.user.name}
+#        password: ${spring.security.user.password}
         instance: #eureka注册中心上的AdminServer的InstanceName(该方式无须指定ip和端口,根据InstanceName自动寻址),官方手册中为url(url中必须指定ip和端口),
           name: actuator
           metadata: #eurekaInstance的用户名和密码
