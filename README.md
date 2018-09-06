@@ -5,5 +5,5 @@ Spring Cloud Finchley Examples
 * 3. 示例项目列表如下:
 
 |项目名称|作用|备注|
-|:------:---|:---|
+|:--:|:--:|:--:|
 |spring-boot-admin|监控SpringBoot应用| |
