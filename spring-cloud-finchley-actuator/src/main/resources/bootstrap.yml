@@ -1,5 +1,5 @@
 server:
-    port: 8134
+    port: 8100
 spring:
   profiles:
     active: dev
@@ -30,4 +30,5 @@ eureka: #TODO Eureka Instance配置
       user.password: ${spring.security.user.password}
   client:
     registryFetchIntervalSeconds: 5
+
 

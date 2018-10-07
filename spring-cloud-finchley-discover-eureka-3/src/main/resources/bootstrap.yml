@@ -1,5 +1,5 @@
 server:
-    port: 8133
+    port: 8103
 spring:
   profiles:
     active: dev
@@ -21,4 +21,3 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
-
