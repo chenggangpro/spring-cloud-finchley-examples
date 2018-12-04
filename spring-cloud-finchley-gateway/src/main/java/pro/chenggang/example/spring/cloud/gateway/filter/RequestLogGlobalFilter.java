@@ -22,8 +22,6 @@ import java.net.URI;
  * @author: chenggang
  * @createTime: 2018/10/23
  * @version: v1.0.0
- * @copyright: 北京辰森
- * @email: cg@choicesoft.com.cn
  */
 @Slf4j
 public class RequestLogGlobalFilter implements GlobalFilter,Ordered {
