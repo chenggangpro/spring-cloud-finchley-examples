@@ -23,12 +23,12 @@ spring:
     password: ${redis.password}
     timeout: 3000
     database: ${redis.database}
-    jedis:
+    lettuce:
       pool:
-        maxactive: 600
-        maxIdle: 300
-        minIdle: 10
-        maxWait: 1000
+        max-active: 600
+        max-idle: 300
+        min-idle: 10
+        max-wait: 1000
 management:
   server:
     add-application-context-header: false
