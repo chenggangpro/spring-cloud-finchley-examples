@@ -12,6 +12,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.web.reactive.result.view.ViewResolver;
 import org.springframework.web.server.ResponseStatusException;
+import pro.chenggang.example.spring.cloud.gateway.annotation.FilterValidate;
+import pro.chenggang.example.spring.cloud.gateway.aspect.FilterAspect;
+import pro.chenggang.example.spring.cloud.gateway.aspect.factory.AspectStrategyFactory;
+import pro.chenggang.example.spring.cloud.gateway.aspect.factory.DefaultAspectStrategyFactory;
+import pro.chenggang.example.spring.cloud.gateway.aspect.strategy.AspectValidateStrategy;
+import pro.chenggang.example.spring.cloud.gateway.aspect.strategy.GlobalWhiteListAspectStrategy;
 import pro.chenggang.example.spring.cloud.gateway.response.converter.FastJsonResponseConverter;
 import pro.chenggang.example.spring.cloud.gateway.response.converter.ResponseConverter;
 import pro.chenggang.example.spring.cloud.gateway.response.handler.JsonExceptionHandler;
@@ -113,6 +119,45 @@ public class GatewayConfig {
         jsonExceptionHandler.setMessageReaders(serverCodecConfigurer.getReaders());
         log.debug("Init Json Exception Handler Instead Default ErrorWebExceptionHandler Success");
         return jsonExceptionHandler;
+    }
+
+    /**
+     * GlobalWhiteListAspectStrategy
+     * 全局白名单切面策略
+     * @return
+     */
+    @Bean
+    public AspectValidateStrategy globalWhiteListAspectStrategy(){
+        GlobalWhiteListAspectStrategy strategy = new GlobalWhiteListAspectStrategy();
+        log.debug("Init GlobalWhiteListAspectStrategy Success");
+        return strategy;
+    }
+
+    /**
+     * DefaultAspectStrategyFactory
+     * 切面策略工厂
+     * @param globalWhiteListAspectStrategy
+     * @return
+     */
+    @Bean
+    public AspectStrategyFactory aspectStrategyFactory(AspectValidateStrategy globalWhiteListAspectStrategy) {
+        DefaultAspectStrategyFactory factory = new DefaultAspectStrategyFactory();
+        factory.addStrategy(FilterValidate.ValidateType.GLOBAL_WHITE_LIST, globalWhiteListAspectStrategy);
+        log.debug("Init AspectStrategyFactory Success,Strategy Size:{}", factory.getStrategySize());
+        return factory;
+    }
+
+    /**
+     * FilterAspect
+     * 过滤器切面
+     * @param aspectStrategyFactory
+     * @return
+     */
+    @Bean
+    public FilterAspect filterAspect(AspectStrategyFactory aspectStrategyFactory){
+        FilterAspect filterAspect =  new FilterAspect(aspectStrategyFactory);
+        log.debug("Init Filter Aspect Success");
+        return filterAspect;
     }
 
 }

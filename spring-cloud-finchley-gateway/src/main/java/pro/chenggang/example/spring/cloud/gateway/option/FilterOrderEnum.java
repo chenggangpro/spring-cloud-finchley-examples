@@ -13,9 +13,17 @@ public enum FilterOrderEnum {
      */
     GATEWAY_CONTEXT_FILTER(Integer.MIN_VALUE),
     /**
+     * 灰度上下文过滤器
+     */
+    GREY_CONTEXT_FILTER(Integer.MIN_VALUE+1),
+    /**
      * 请求日志过滤器
      */
-    REQUEST_LOG_FILTER(Integer.MIN_VALUE+1),
+    REQUEST_LOG_FILTER(Integer.MIN_VALUE+2),
+    /**
+     * 白名单过滤器
+     */
+    WHITE_LIST_FILTER(Integer.MIN_VALUE+100),
     ;
 
     private int order;
