@@ -1,0 +1,32 @@
+server:
+    port: 8203
+spring:
+  profiles:
+    active: dev,jdbc  #这里必须指定jdbc配置文件
+  application:
+    name: config
+  security:
+    user:
+      name: username
+      password: password
+  boot:
+    admin:
+      client:
+#        username: ${spring.security.user.name}
+#        password: ${spring.security.user.password}
+        instance:
+          name: pro.chenggang.example.spring.cloud.provider
+          metadata:
+            user.name: ${spring.security.user.name}
+            user.password: ${spring.security.user.password}
+eureka:
+  instance:
+    health-check-url-path: /actuator/health
+    leaseRenewalIntervalInSeconds: 10
+    lease-expiration-duration-in-seconds: 30
+    prefer-ip-address: true
+    metadata-map:
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+  client:
+    registryFetchIntervalSeconds: 5

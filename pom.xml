@@ -17,6 +17,8 @@
         <module>spring-cloud-finchley-discover-eureka-3</module>
         <module>spring-cloud-finchley-provider</module>
         <module>spring-cloud-finchley-gateway</module>
+        <module>spring-cloud-finchley-task</module>
+        <module>spring-cloud-finchley-config</module>
     </modules>
 
 

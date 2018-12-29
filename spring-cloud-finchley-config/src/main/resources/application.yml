@@ -1,0 +1,53 @@
+spring:
+  profiles:
+    active: dev,jdbc  #这里必须指定jdbc配置文件
+  datasource:
+    name: ${spring.profiles.active}
+    url: jdbc:mysql://${mysql.ip}:${mysql.port}/config-server?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    username: ${mysql.username}
+    password: ${mysql.password}
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    #https://blog.csdn.net/qq_32953079/article/details/81502237
+    hikari:
+      connection-test-query: select 1 FROM DUAL
+      connection-timeout: 10000
+      minimum-idle: 5
+      maximum-pool-size: 100
+      max-lifetime: 60000
+      idle-timeout: 30000
+      validation-timeout: 60000
+  redis:
+    host: ${redis.host}
+    port: ${redis.port}
+    password: ${redis.password}
+    timeout: 3000
+    database: ${redis.database}
+    lettuce:
+      pool:
+        max-active: 600
+        max-idle: 300
+        min-idle: 10
+        max-wait: 1000
+  cloud:
+    config:
+      server:
+        health:
+          #https://cloud.spring.io/spring-cloud-static/spring-cloud-config/2.0.2.RELEASE/single/spring-cloud-config.html#_health_indicator
+          enabled: false  #配置健康监测,默认为开启,如果开启,即表示,健康监测会监测指定配置文件的是否存在,在这里把他关闭
+        jdbc:
+          sql: select key,value from properties where application=? and profile=? and label=? and delete_flag = 2 and status =1
+management:
+  server:
+    add-application-context-header: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+info:
+  name: Config
+  version: @project.version@
+  profile: ${spring.profiles.active}
