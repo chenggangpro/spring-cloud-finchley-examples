@@ -1,5 +1,6 @@
 package pro.chenggang.example.spring.cloud.gateway.support.grey;
 
+import com.alibaba.fastjson.JSON;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.client.config.IClientConfigKey;
 import com.netflix.loadbalancer.AbstractLoadBalancer;
@@ -9,7 +10,6 @@ import com.netflix.loadbalancer.BaseLoadBalancer;
 import com.netflix.loadbalancer.CompositePredicate;
 import com.netflix.loadbalancer.ILoadBalancer;
 import com.netflix.loadbalancer.LoadBalancerStats;
-import com.netflix.loadbalancer.PredicateBasedRule;
 import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ServerStats;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +27,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author: chenggang
  * @createTime: 2018/12/13
  * @version: v1.0.0
- * @copyright: 北京辰森
- * @email: cg@choicesoft.com.cn
  */
 @Slf4j
-public class GreyWeightResponseRule extends PredicateBasedRule {
+public class GreyWeightResponseRule extends RoundRule {
 
     private CompositePredicate compositePredicate;
 
@@ -106,13 +104,10 @@ public class GreyWeightResponseRule extends PredicateBasedRule {
         ServerWeight sw = new ServerWeight();
         sw.maintainWeights();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                log.info("Stopping NFLoadBalancer-serverWeightTimer-"
-                                + name);
-                serverWeightTimer.cancel();
-            }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            log.info("Stopping NFLoadBalancer-serverWeightTimer-"
+                            + name);
+            serverWeightTimer.cancel();
         }));
     }
 
@@ -127,6 +122,7 @@ public class GreyWeightResponseRule extends PredicateBasedRule {
         return Collections.unmodifiableList(accumulatedWeights);
     }
 
+    @Override
     public Server choose(ILoadBalancer lb, Object key) {
         if (lb == null) {
             return null;
@@ -154,7 +150,7 @@ public class GreyWeightResponseRule extends PredicateBasedRule {
             // No server has been hit yet and total weight is not initialized
             // fallback to use round robin
             if (maxTotalWeight < 0.001d || serverCount != currentWeights.size()) {
-                server =  super.choose(key);
+                server =  super.choose(getLoadBalancer(), key);
                 if(server == null) {
                     return server;
                 }
@@ -182,6 +178,7 @@ public class GreyWeightResponseRule extends PredicateBasedRule {
             }
 
             if (server.isAlive()) {
+                log.debug("[GreyWeightResponseRule]Choose Server ==> {} [MetaInfo:{}]",server.getId(), JSON.toJSONString(server.getMetaInfo()));
                 return (server);
             }
 
@@ -192,6 +189,11 @@ public class GreyWeightResponseRule extends PredicateBasedRule {
     }
 
     class DynamicServerWeightTask extends TimerTask {
+
+        public DynamicServerWeightTask() {
+            log.debug("Init DynamicServerWeightTask Success,Server Name:{}",name);
+        }
+
         @Override
         public void run() {
             ServerWeight serverWeight = new ServerWeight();
@@ -216,7 +218,6 @@ public class GreyWeightResponseRule extends PredicateBasedRule {
             }
 
             try {
-                log.info("Weight adjusting job started");
                 AbstractLoadBalancer nlb = (AbstractLoadBalancer) lb;
                 LoadBalancerStats stats = nlb.getLoadBalancerStats();
                 if (stats == null) {
@@ -250,11 +251,6 @@ public class GreyWeightResponseRule extends PredicateBasedRule {
             }
 
         }
-    }
-
-    @Override
-    public Server choose(Object key) {
-        return choose(getLoadBalancer(), key);
     }
 
     void setWeights(List<Double> weights) {

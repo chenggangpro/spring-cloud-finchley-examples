@@ -12,8 +12,6 @@ import pro.chenggang.example.spring.cloud.gateway.properties.GreyProperties;
  * @author: chenggang
  * @createTime: 2018/11/19
  * @version: v1.0.0
- * @copyright: 北京辰森
- * @email: cg@choicesoft.com.cn
  */
 @Configuration
 @Slf4j

@@ -10,8 +10,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.codec.ServerCodecConfigurer;
+import org.springframework.web.filter.reactive.HiddenHttpMethodFilter;
 import org.springframework.web.reactive.result.view.ViewResolver;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilterChain;
 import pro.chenggang.example.spring.cloud.gateway.annotation.FilterValidate;
 import pro.chenggang.example.spring.cloud.gateway.aspect.FilterAspect;
 import pro.chenggang.example.spring.cloud.gateway.aspect.factory.AspectStrategyFactory;
@@ -26,6 +29,7 @@ import pro.chenggang.example.spring.cloud.gateway.response.handler.factory.Excep
 import pro.chenggang.example.spring.cloud.gateway.response.handler.strategy.ExceptionHandlerStrategy;
 import pro.chenggang.example.spring.cloud.gateway.response.handler.strategy.NotFoundExceptionHandlerStrategy;
 import pro.chenggang.example.spring.cloud.gateway.response.handler.strategy.ResponseStatusExceptionHandlerStrategy;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
@@ -158,6 +162,21 @@ public class GatewayConfig {
         FilterAspect filterAspect =  new FilterAspect(aspectStrategyFactory);
         log.debug("Init Filter Aspect Success");
         return filterAspect;
+    }
+
+    /**
+     * 若不指定该配置，则在使用form-url-encoder 时会出现异常，在下个版本会修复
+     * @return
+     */
+    @Primary
+    @Bean
+    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+        return new HiddenHttpMethodFilter() {
+            @Override
+            public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+                return chain.filter(exchange);
+            }
+        };
     }
 
 }

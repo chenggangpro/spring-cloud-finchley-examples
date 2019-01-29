@@ -23,8 +23,6 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.a
  * @author: chenggang
  * @createTime: 2018/12/11
  * @version: v1.0.0
- * @copyright: 北京辰森
- * @email: cg@choicesoft.com.cn
  */
 public class CustomLoadBalancerClientFilter extends LoadBalancerClientFilter {
 

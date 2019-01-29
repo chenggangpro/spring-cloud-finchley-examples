@@ -31,8 +31,6 @@ import java.util.stream.Collectors;
  * @author: chenggang
  * @createTime: 2018/12/13
  * @version: v1.0.0
- * @copyright: 北京辰森
- * @email: cg@choicesoft.com.cn
  */
 @Slf4j
 @AllArgsConstructor

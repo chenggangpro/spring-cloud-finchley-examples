@@ -12,8 +12,6 @@ import java.util.Map;
  * @author: chenggang
  * @createTime: 2018/10/30
  * @version: v1.0.0
- * @copyright: 北京辰森
- * @email: cg@choicesoft.com.cn
  */
 @Slf4j
 public class DefaultAspectStrategyFactory implements AspectStrategyFactory {

@@ -23,8 +23,6 @@ import static pro.chenggang.example.spring.cloud.gateway.annotation.FilterValida
  * @author: chenggang
  * @createTime: 2018/10/29
  * @version: v1.0.0
- * @copyright: 北京辰森
- * @email: cg@choicesoft.com.cn
  */
 @Aspect
 @Slf4j

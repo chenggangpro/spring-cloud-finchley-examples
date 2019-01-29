@@ -12,8 +12,6 @@ import java.lang.annotation.Target;
  * @author: chenggang
  * @createTime: 2018/10/29
  * @version: v1.0.0
- * @copyright: 北京辰森
- * @email: cg@choicesoft.com.cn
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD })

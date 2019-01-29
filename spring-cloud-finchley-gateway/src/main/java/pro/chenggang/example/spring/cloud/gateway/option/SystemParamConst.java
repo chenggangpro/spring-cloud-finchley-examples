@@ -5,8 +5,6 @@ package pro.chenggang.example.spring.cloud.gateway.option;
  * @author: chenggang
  * @createTime: 2018/11/15
  * @version: v1.0.0
- * @copyright: 北京辰森
- * @email: cg@choicesoft.com.cn
  */
 public class SystemParamConst {
 
